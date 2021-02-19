@@ -1,7 +1,7 @@
-.. _Installing XDM:
+.. _Install XDM:
 
-Installing XDM
-==============
+Install XDM
+===========
 
 .. note::
    
@@ -10,7 +10,7 @@ Installing XDM
 Prerequisites
 -------------
 
-- Your disk must be partioned as follows:
+- Partition your disk as follows:
    
   +-------------+---------+-----------+
   | Partition # | Size    | Service   |
@@ -23,7 +23,7 @@ Prerequisites
   +-------------+---------+-----------+
   | 4           | 10 GiB  | Redis     |
   +-------------+---------+-----------+
-  | 5           | 10 GiB  | Zookeeper |
+  | 5           | 10 GiB  | ZooKeeper |
   +-------------+---------+-----------+
 
   If necessary, partition your disk:
@@ -43,13 +43,13 @@ Prerequisites
          mkpart primary ext4 560GiB 570GiB \
          mkpart primary ext4 570GiB 580GiB
 
-Deploying MetalK8s
-------------------
+Deploy MetalK8s
+---------------
 
 Refer to MetalK8s *Installation* for details on its deployment.
 
-Deploying XDM-Operator
-----------------------
+Deploy XDM Operator
+-------------------
 
 #. From your terminal, create a namespace for XDM:
 
@@ -62,21 +62,21 @@ Deploying XDM-Operator
    .. code::
 
       /srv/scality/metalk8s-2.6.0/solutions.sh import --archive $ZENKO_BASE_ISO
-      sed "s/SOLUTION_ENV/zenko/g" /srv/scality/zenko-base-2.0.0-alpha.3/operator.      yaml | kubectl apply -f -
+      sed "s/SOLUTION_ENV/zenko/g" /srv/scality/zenko-base-2.0.0-beta.3/operator.      yaml | kubectl apply -f -
       kubectl -n zenko rollout status --timeout 10m deploy kubedb-operator
-      sed "s/SOLUTION_ENV/zenko/g" /srv/scality/zenko-base-2.0.0-alpha.3/operator.      yaml | kubectl apply -f -
+      sed "s/SOLUTION_ENV/zenko/g" /srv/scality/zenko-base-2.0.0-beta.3/operator.      yaml | kubectl apply -f -
 
-#. Install XDM-Operator:
+#. Install XDM Operator:
 
    .. code::
 
       /srv/scality/metalk8s-2.6.0/solutions.sh import --archive $ZENKO_ISO
-      /srv/scality/metalk8s-2.6.0/solutions.sh activate --name zenko --version 2.0.      0-alpha.3
-      /srv/scality/metalk8s-2.6.0/solutions.sh add-solution --name zenko       --solution zenko --version 2.0.0-alpha.3
+      /srv/scality/metalk8s-2.6.0/solutions.sh activate --name zenko --version 2.0.      0-beta.3
+      /srv/scality/metalk8s-2.6.0/solutions.sh add-solution --name zenko       --solution zenko --version 2.0.0-beta.3
       kubectl -n zenko rollout status --timeout 10m deploy zenko-operator
 
-Deploying XDM
--------------
+Deploy XDM
+----------
 
 #. Create a Keycloak realm for XDM:
 
@@ -150,11 +150,11 @@ Deploying XDM
       }
       EOF
 
-#. Create a yaml file for the new XDM's version:
+#. Create a yaml file for the new XDM version:
 
    .. code::
 
-      kubectl apply --namespace zenko -f /srv/scality/zenko-2.0.0-alpha.3/zenkoversion.yaml
+      kubectl apply --namespace zenko -f /srv/scality/zenko-2.0.0-beta.3/zenkoversion.yaml
 
 #. Create storage classes:
 
@@ -283,7 +283,7 @@ Deploying XDM
       metadata:
         name: zenko-instance
       spec:
-        version: 2.0.0-alpha.3
+        version: 2.0.0-beta.3
         replicas: 1
         mongodb:
           provider: KubeDB
@@ -393,10 +393,10 @@ Deploying XDM
 Testing
 -------
 
-Via the User Interface
-**********************
+Using the GUI
+*************
 
-Add the following hosts to the browser user machine ``/etc/hosts`` to resolve to 
+Add the following hosts to your ``etc/hosts`` file, resolving them to the 
 MetalK8s node's IP address:
 
 - management.zenko.local
@@ -409,14 +409,14 @@ MetalK8s node's IP address:
 
 .. note::
 
-   If the machine has port 80 open, you can access the User Interface through http://ui.zenko.local.
+   If port 80 is open, you can access the user interface through http://ui.zenko.local.
 
 .. important::
 
-   The User Interface is limited to creating accounts and locations.
+   The user interface is limited to creating accounts and locations.
 
-Via Command Line
-****************
+Using the Command Line
+**********************
 
 Prerequisites
 ~~~~~~~~~~~~~~
@@ -504,7 +504,7 @@ Procedure
           "http://management.zenko.local/api/v1/config/${INSTANCE_ID}/endpoint" | \
           jq '.'
 
-#. Generate the account's key:
+#. Generate the account key:
 
    .. code::
       
